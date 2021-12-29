@@ -21,7 +21,7 @@ namespace site.Api
             if (policy == null)
                 return NotFound();
             
-            return Ok(policy);
+            return Ok(new [] {1, 2, 3, 4, 5, 6});
         }
     }
 }
