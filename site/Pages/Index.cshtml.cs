@@ -4,7 +4,7 @@ namespace site.Pages;
 
 public class IndexModel : PageModel
 {
-    public Policy Policy { get; set; } = new Policy("derp");
+    public Policy? Policy { get; set; }
 
     private readonly IPolicyService _policyService;
     private readonly ILogger<IndexModel> _logger;
