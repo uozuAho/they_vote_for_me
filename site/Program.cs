@@ -1,6 +1,9 @@
+using site;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IPolicyService, PolicyService>();
 
 var app = builder.Build();
 
