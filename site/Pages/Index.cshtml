@@ -7,7 +7,8 @@
 <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
 
 <div class="text-center">
-    <h1 class="display-4">Policies</h1>
+    <h1 id="policyTitle" class="display-4">Policies</h1>
+    <p id="policyDescription"></p>
 </div>
 
 <div id="chartElement" style="width:800px;height:600px;"></div>
@@ -24,9 +25,10 @@
     function loadPolicy(id) {
         fetch(`api/policy/${id}`)
             .then(response => response.json())
-            .then(apiData => {
-
-                const traces = apiData.slice(0, 5).map(d => ({
+            .then(policy => {
+                $('#policyTitle').text(policy.title);
+                $('#policyDescription').text(policy.description);
+                const traces = policy.partyAgreements.slice(0, 5).map(d => ({
                     x: d.agreements,
                     type: 'histogram',
                     name: d.party

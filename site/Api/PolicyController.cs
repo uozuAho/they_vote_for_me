@@ -16,7 +16,7 @@ namespace site.Api
 
         [HttpGet]
         [Route("{policyId:int}")]
-        [Produces(typeof(PartyAgreement[]))]
+        [Produces(typeof(PolicyAgreementByParty[]))]
         public async Task<IActionResult> GetAgreementsByParty(int policyId)
         {
             var policy = await _theyVoteForYouApiClient.GetPolicy(policyId);
@@ -24,14 +24,24 @@ namespace site.Api
             if (policy == null)
                 return NotFound();
 
-            var partySummaries = policy.people_comparisons
+            var partyAgreements = policy.people_comparisons
                 .GroupBy(p => p.person.latest_member.party)
                 .OrderByDescending(g => g.Count())
                 .Select(g => new PartyAgreement(g.Key, g.Select(p => p.agreement).ToArray()));
 
-            return Ok(partySummaries);
+            return Ok(new PolicyAgreementByParty(
+                policy.name,
+                policy.description,
+                partyAgreements.ToArray())
+            );
         }
     }
+
+    public record PolicyAgreementByParty(
+        string title,
+        string description,
+        PartyAgreement[] partyAgreements
+    );
 
     public record PartyAgreement(
         string party,
