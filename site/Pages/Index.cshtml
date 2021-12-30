@@ -18,17 +18,13 @@
     fetch("api/policy")
         .then(response => response.json())
         .then(apiData => {
-            const chartElement = document.getElementById('chartElement');
 
-            Plotly.newPlot(chartElement,
-                [
-                    {
-                        x: [1, 2, 3, 4, 5],
-                        y: [1, 2, 4, 8, 16]
-                    }
-                ],
-                {
-                    margin: { t: 0 }
-                });
+            var trace = {
+                x: apiData[0].agreements,
+                type: 'histogram',
+            };
+
+            var data = [trace];
+            Plotly.newPlot('chartElement', data);
         });
 </script>

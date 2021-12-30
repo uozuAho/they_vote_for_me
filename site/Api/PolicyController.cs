@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace site.Api
 {
@@ -13,22 +13,37 @@ namespace site.Api
             _policyService = policyService;
         }
 
+        // [HttpGet]
+        // public async Task<IActionResult> GetPolicy()
+        // {
+        //     var policy = await _policyService.getstuff();
+        //     
+        //     if (policy == null)
+        //         return NotFound();
+        //
+        //     var partySummaries = policy.people_comparisons
+        //         .GroupBy(p => p.person.latest_member.party)
+        //         .Select(g => new PolicyPartySummary(
+        //             g.Key,
+        //             g.Count(),
+        //             g.Average(a => a.agreement))
+        //         );
+        //     
+        //     return Ok(partySummaries);
+        // }
+
         [HttpGet]
-        public async Task<IActionResult> GetPolicy()
+        public async Task<IActionResult> GetAgreementsByParty()
         {
             var policy = await _policyService.getstuff();
-            
+
             if (policy == null)
                 return NotFound();
 
             var partySummaries = policy.people_comparisons
                 .GroupBy(p => p.person.latest_member.party)
-                .Select(g => new PolicyPartySummary(
-                    g.Key,
-                    g.Count(),
-                    g.Average(a => a.agreement))
-                );
-            
+                .Select(g => new PartyAgreement(g.Key, g.Select(p => p.agreement).ToArray()));
+
             return Ok(partySummaries);
         }
     }
@@ -37,4 +52,6 @@ namespace site.Api
         string party,
         int totalVotes,
         double average_agreement);
+
+    public record PartyAgreement(string party, double[] agreements);
 }
