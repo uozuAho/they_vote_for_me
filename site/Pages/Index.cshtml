@@ -4,51 +4,26 @@
     ViewData["Title"] = "Home page";
 }
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-<canvas id="myChart" width="400" height="400"></canvas>
+<div id="chartElement" style="width:800px;height:600px;"></div>
 <script>
-fetch("api/policy")
-    .then(response => response.json())
-    .then(apiData => {
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                // plotly histogram may be the way to go: https://plotly.com/javascript/histograms/
-                // 10 bins, count per member, one histogram per party
-                labels: ['A', 'B'],
-                datasets: [
-                    {
-                        label: 'A',
-                        backgroundColor: '#000',
-                        borderWidth: 3,
-                        fill: true,
-                        data: [1,2,3],
-                        yAxisID: 'A'
-                    },
-                    {
-                        label: 'B',
-                        backgroundColor: '#444',
-                        borderWidth: 3,
-                        fill: true,
-                        data: [1,2,3],
-                        yAxisID: 'B'
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+    fetch("api/policy")
+        .then(response => response.json())
+        .then(apiData => {
+
+            const traces = apiData.slice(0, 5).map(d => ({
+                x: d.agreements,
+                type: 'histogram',
+                name: d.party
+            }));
+
+            const layout = {barmode: "stack"};
+            Plotly.newPlot('chartElement', traces, layout);
         });
-    })
 </script>
