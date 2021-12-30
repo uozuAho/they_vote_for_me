@@ -4,7 +4,6 @@
     ViewData["Title"] = "Home page";
 }
 
-@* <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script> *@
 <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
 
 <div class="text-center">
@@ -12,17 +11,11 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@* <canvas id="myChart" width="400" height="400"></canvas> *@
 <div id="chartElement" style="width:800px;height:600px;"></div>
 <script>
     fetch("api/policy")
         .then(response => response.json())
         .then(apiData => {
-
-//            const traces = {
-//                x: apiData.slice(0, 2)[0].agreements,
-//                type: 'histogram',
-//            };
 
             const traces = apiData.slice(0, 5).map(d => ({
                 x: d.agreements,
