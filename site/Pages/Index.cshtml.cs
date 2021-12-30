@@ -6,7 +6,7 @@ namespace site.Pages;
 
 public class IndexModel : PageModel
 {
-    public PolicyDetails? Policy { get; set; }
+    public PolicyListItem[] Policies { get; set; }
 
     private readonly ITheyVoteForYouApiClient _theyVoteForYouApiClient;
     private readonly ILogger<IndexModel> _logger;
@@ -21,7 +21,6 @@ public class IndexModel : PageModel
 
     public async Task OnGet()
     {
-        var policy = await _theyVoteForYouApiClient.GetPolicy();
-        if (policy != null) Policy = policy;
+        Policies = await _theyVoteForYouApiClient.GetAllPolicies();
     }
 }

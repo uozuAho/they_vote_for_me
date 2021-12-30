@@ -7,11 +7,19 @@
 <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Policies</h1>
 </div>
 
 <div id="chartElement" style="width:800px;height:600px;"></div>
+
+<h2>All policies</h2>
+<ul>
+    @foreach (var policy in Model.Policies)
+    {
+        <li>@policy.name</li>
+    }
+</ul>
+
 <script>
     fetch("api/policy")
         .then(response => response.json())
