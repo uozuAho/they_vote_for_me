@@ -16,22 +16,24 @@
 <ul>
     @foreach (var policy in Model.Policies)
     {
-        <li>@policy.name</li>
+        <li onclick="loadPolicy(1)">@policy.name</li>
     }
 </ul>
 
 <script>
-    fetch("api/policy")
-        .then(response => response.json())
-        .then(apiData => {
+    function loadPolicy(id) {
+        fetch("api/policy")
+            .then(response => response.json())
+            .then(apiData => {
 
-            const traces = apiData.slice(0, 5).map(d => ({
-                x: d.agreements,
-                type: 'histogram',
-                name: d.party
-            }));
+                const traces = apiData.slice(0, 5).map(d => ({
+                    x: d.agreements,
+                    type: 'histogram',
+                    name: d.party
+                }));
 
-            const layout = {barmode: "stack"};
-            Plotly.newPlot('chartElement', traces, layout);
-        });
+                const layout = {barmode: "stack"};
+                Plotly.newPlot('chartElement', traces, layout);
+            });
+    }
 </script>
