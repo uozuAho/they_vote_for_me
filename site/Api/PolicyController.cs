@@ -20,8 +20,21 @@ namespace site.Api
             
             if (policy == null)
                 return NotFound();
+
+            var partySummaries = policy.people_comparisons
+                .GroupBy(p => p.person.latest_member.party)
+                .Select(g => new PolicyPartySummary(
+                    g.Key,
+                    g.Count(),
+                    g.Average(a => a.agreement))
+                );
             
-            return Ok(policy);
+            return Ok(partySummaries);
         }
     }
+
+    public record PolicyPartySummary(
+        string party,
+        int totalVotes,
+        double average_agreement);
 }
