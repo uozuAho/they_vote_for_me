@@ -15,10 +15,11 @@ namespace site.Api
         }
 
         [HttpGet]
+        [Route("{policyId:int}")]
         [Produces(typeof(PartyAgreement[]))]
-        public async Task<IActionResult> GetAgreementsByParty()
+        public async Task<IActionResult> GetAgreementsByParty(int policyId)
         {
-            var policy = await _theyVoteForYouApiClient.GetPolicy();
+            var policy = await _theyVoteForYouApiClient.GetPolicy(policyId);
 
             if (policy == null)
                 return NotFound();

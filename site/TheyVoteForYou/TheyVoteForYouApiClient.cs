@@ -6,7 +6,7 @@ namespace site.TheyVoteForYou
     public interface ITheyVoteForYouApiClient
     {
         Task<PolicyListItem[]> GetAllPolicies();
-        Task<PolicyDetails?> GetPolicy();
+        Task<PolicyDetails?> GetPolicy(int policyId);
     }
 
     public class TheyVoteForYouApiClient : ITheyVoteForYouApiClient
@@ -29,11 +29,11 @@ namespace site.TheyVoteForYou
             return policies;
         }
 
-        public async Task<PolicyDetails?> GetPolicy()
+        public async Task<PolicyDetails?> GetPolicy(int policyId)
         {
             using var client = new HttpClient();
             var policy = await client.GetFromJsonAsync<PolicyDetails>(
-                $"https://theyvoteforyou.org.au/api/v1/policies/1.json?key={_apiKey}");
+                $"https://theyvoteforyou.org.au/api/v1/policies/{policyId}.json?key={_apiKey}");
 
             return policy;
         }

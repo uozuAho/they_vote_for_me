@@ -16,13 +16,13 @@
 <ul>
     @foreach (var policy in Model.Policies)
     {
-        <li onclick="loadPolicy(1)">@policy.name</li>
+        <li onclick="loadPolicy(@policy.id)">@policy.name</li>
     }
 </ul>
 
 <script>
     function loadPolicy(id) {
-        fetch("api/policy")
+        fetch(`api/policy/${id}`)
             .then(response => response.json())
             .then(apiData => {
 
