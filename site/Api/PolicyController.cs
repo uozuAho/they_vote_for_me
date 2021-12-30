@@ -42,6 +42,7 @@ namespace site.Api
 
             var partySummaries = policy.people_comparisons
                 .GroupBy(p => p.person.latest_member.party)
+                .OrderByDescending(g => g.Count())
                 .Select(g => new PartyAgreement(g.Key, g.Select(p => p.agreement).ToArray()));
 
             return Ok(partySummaries);
@@ -53,5 +54,7 @@ namespace site.Api
         int totalVotes,
         double average_agreement);
 
-    public record PartyAgreement(string party, double[] agreements);
+    public record PartyAgreement(
+        string party,
+        double[] agreements);
 }

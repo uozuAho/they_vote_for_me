@@ -13,18 +13,24 @@
 </div>
 
 @* <canvas id="myChart" width="400" height="400"></canvas> *@
-<div id="chartElement" style="width:600px;height:250px;"></div>
+<div id="chartElement" style="width:800px;height:600px;"></div>
 <script>
     fetch("api/policy")
         .then(response => response.json())
         .then(apiData => {
 
-            var trace = {
-                x: apiData[0].agreements,
-                type: 'histogram',
-            };
+//            const traces = {
+//                x: apiData.slice(0, 2)[0].agreements,
+//                type: 'histogram',
+//            };
 
-            var data = [trace];
-            Plotly.newPlot('chartElement', data);
+            const traces = apiData.slice(0, 5).map(d => ({
+                x: d.agreements,
+                type: 'histogram',
+                name: d.party
+            }));
+
+            const layout = {barmode: "stack"};
+            Plotly.newPlot('chartElement', traces, layout);
         });
 </script>
