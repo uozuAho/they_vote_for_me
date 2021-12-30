@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using site.TheyVoteForYou;
 
 namespace site.Api
 {
@@ -6,17 +7,18 @@ namespace site.Api
     [ApiController]
     public class PolicyController : ControllerBase
     {
-        private readonly IPolicyService _policyService;
+        private readonly ITheyVoteForYouApiClient _theyVoteForYouApiClient;
 
-        public PolicyController(IPolicyService policyService)
+        public PolicyController(ITheyVoteForYouApiClient theyVoteForYouApiClient)
         {
-            _policyService = policyService;
+            _theyVoteForYouApiClient = theyVoteForYouApiClient;
         }
 
         [HttpGet]
+        [Produces(typeof(PartyAgreement[]))]
         public async Task<IActionResult> GetAgreementsByParty()
         {
-            var policy = await _policyService.getstuff();
+            var policy = await _theyVoteForYouApiClient.GetPolicy();
 
             if (policy == null)
                 return NotFound();

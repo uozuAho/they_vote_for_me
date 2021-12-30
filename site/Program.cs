@@ -1,11 +1,12 @@
 using site;
+using site.TheyVoteForYou;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.secret.json", optional: true);
 builder.Services.AddRazorPages();
-builder.Services.Configure<PolicyServiceConfig>(builder.Configuration.GetSection("TheyVoteForYou"));
-builder.Services.AddScoped<IPolicyService, PolicyService>();
+builder.Services.Configure<TheyVoteForYouApiClientConfig>(builder.Configuration.GetSection("TheyVoteForYou"));
+builder.Services.AddScoped<ITheyVoteForYouApiClient, TheyVoteForYouApiClient>();
 
 var app = builder.Build();
 
