@@ -28,10 +28,14 @@
             .then(policy => {
                 $('#policyTitle').text(policy.title);
                 $('#policyDescription').text(policy.description);
-                const traces = policy.partyAgreements.slice(0, 5).map(d => ({
-                    x: d.agreements,
+
+                const traces = policy.partyAgreements.slice(0, 5).map(a => ({
+                    name: a.party,
+                    x: a.agreements,
                     type: 'histogram',
-                    name: d.party
+                    marker: {
+                        color: a.color
+                    }
                 }));
 
                 const layout = {barmode: "stack"};

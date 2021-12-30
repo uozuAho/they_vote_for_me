@@ -43,7 +43,20 @@ namespace site.Api
         PartyAgreement[] partyAgreements
     );
 
-    public record PartyAgreement(
-        string party,
-        double[] agreements);
+    public record PartyAgreement(string party, double[] agreements)
+    {
+        public string? color => PartyColour(party);
+
+        private static string? PartyColour(string party)
+        {
+            return party switch
+            {
+                "National Party" => "aqua",
+                "Liberal Party" => "blue",
+                "Australian Labor Party" => "red",
+                "Australian Greens" => "green",
+                _ => null
+            };
+        }
+    };
 }
