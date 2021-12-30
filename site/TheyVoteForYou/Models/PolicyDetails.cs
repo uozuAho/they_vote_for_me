@@ -1,6 +1,6 @@
 namespace site.TheyVoteForYou.Models;
 
-public record Policy(
+public record PolicyDetails(
     string name,
     string description,
     bool provisional,

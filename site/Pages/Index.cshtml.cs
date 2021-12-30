@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using site.TheyVoteForYou;
 using site.TheyVoteForYou.Models;
 
@@ -6,7 +6,7 @@ namespace site.Pages;
 
 public class IndexModel : PageModel
 {
-    public Policy? Policy { get; set; }
+    public PolicyDetails? Policy { get; set; }
 
     private readonly ITheyVoteForYouApiClient _theyVoteForYouApiClient;
     private readonly ILogger<IndexModel> _logger;
