@@ -24,7 +24,7 @@ fetch(`/api/policy/@RouteData.Values["id"]`)
         $('#policyTitle').text(policy.title);
         $('#policyDescription').text(policy.description);
 
-        const traces = policy.partyAgreements.slice(0, 5).map(a => ({
+        const traces = policy.partyAgreements.map(a => ({
             name: a.party,
             x: a.agreements,
             type: 'histogram',
