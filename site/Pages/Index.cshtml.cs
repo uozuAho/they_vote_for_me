@@ -21,6 +21,7 @@ public class IndexModel : PageModel
 
     public async Task OnGet()
     {
-        Policies = await _theyVoteForYouApiClient.GetAllPolicies();
+        var policies = await _theyVoteForYouApiClient.GetAllPolicies();
+        Policies = policies.OrderByDescending(p => p.last_edited_at).ToArray();
     }
 }
