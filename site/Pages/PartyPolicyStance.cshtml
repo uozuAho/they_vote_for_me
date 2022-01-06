@@ -1,0 +1,35 @@
+@page "{id:int}"
+@model PartyPolicyStanceModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+
+<div class="text-center">
+    <h1 id="policyTitle" class="display-4"></h1>
+    <p id="policyDescription"></p>
+</div>
+
+<div id="chartElement" style="width:800px;height:600px;"></div>
+
+<script>
+fetch(`/api/policy/@RouteData.Values["id"]`)
+    .then(response => response.json())
+    .then(policy => {
+        $('#policyTitle').text(policy.title);
+        $('#policyDescription').text(policy.description);
+
+        const traces = policy.partyAgreements.slice(0, 5).map(a => ({
+            name: a.party,
+            x: a.agreements,
+            type: 'histogram',
+            marker: {
+                color: a.color
+            }
+        }));
+
+        const layout = {barmode: "stack"};
+        Plotly.newPlot('chartElement', traces, layout);
+    });
+</script>

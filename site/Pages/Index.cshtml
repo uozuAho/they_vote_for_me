@@ -11,35 +11,10 @@
     <p id="policyDescription"></p>
 </div>
 
-<div id="chartElement" style="width:800px;height:600px;"></div>
-
 <h2>All policies</h2>
 <ul>
     @foreach (var policy in Model.Policies)
     {
-        <li onclick="loadPolicy(@policy.id)">@policy.name</li>
+        <li><a href="PartyPolicyStance/@policy.id">@policy.name</a></li>
     }
 </ul>
-
-<script>
-    function loadPolicy(id) {
-        fetch(`api/policy/${id}`)
-            .then(response => response.json())
-            .then(policy => {
-                $('#policyTitle').text(policy.title);
-                $('#policyDescription').text(policy.description);
-
-                const traces = policy.partyAgreements.slice(0, 5).map(a => ({
-                    name: a.party,
-                    x: a.agreements,
-                    type: 'histogram',
-                    marker: {
-                        color: a.color
-                    }
-                }));
-
-                const layout = {barmode: "stack"};
-                Plotly.newPlot('chartElement', traces, layout);
-            });
-    }
-</script>
