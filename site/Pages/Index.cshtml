@@ -12,9 +12,21 @@
 </div>
 
 <h2>All policies</h2>
-<ul>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+    </tr>
+    </thead>
+    <tbody>
     @foreach (var policy in Model.Policies)
     {
-        <li><a href="PartyPolicyStance/@policy.id">@policy.name</a></li>
+        <tr>
+            <th scope="row"><a href="PartyPolicyStance/@policy.id">@policy.name</a></th>
+        </tr>
     }
+    </tbody>
+</table>
+<ul>
+    
 </ul>
