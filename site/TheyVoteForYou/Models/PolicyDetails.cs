@@ -15,6 +15,9 @@ public record PersonComparison(
 
 public record Person(Member latest_member);
 
-public record Member(Name name, string house, string party);
+public record Member(Name name, string electorate, string house, string party);
 
-public record Name(string first, string last);
+public record Name(string first, string last)
+{
+    public string FullName => $"{first} {last}";
+}

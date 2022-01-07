@@ -15,25 +15,47 @@
 </div>
 
 
-<div id="chartElement" style="width:800px;height:600px;"></div>
+<div id="chartElement" style="width:1000px;height:800px;"></div>
+
+<div id="membersDataElement"></div>
 
 <script>
-fetch(`/api/policy/@RouteData.Values["id"]`)
-    .then(response => response.json())
-    .then(policy => {
-        $('#policyTitle').text(policy.title);
-        $('#policyDescription').text(policy.description);
+    function handleHistogramClick(event, memberDetails) {
+        const party = event.points[0].data.name;
+        const partyMembers = memberDetails.filter(m => m.party === party);
 
-        const traces = policy.partyAgreements.map(a => ({
-            name: a.party,
-            x: a.agreements,
-            type: 'histogram',
-            marker: {
-                color: a.color
-            }
-        }));
+        const members = [];
+        for (const i of event.points[0].pointIndices) {
+            members.push(partyMembers[i]);
+        }
 
-        const layout = {barmode: "stack"};
-        Plotly.newPlot('chartElement', traces, layout);
-    });
+        console.log(members);
+    }
+
+    fetch(`/api/policy/@RouteData.Values["id"]`)
+        .then(response => response.json())
+        .then(policy => {
+            $('#policyTitle').text(policy.title);
+            $('#policyDescription').text(policy.description);
+
+            console.log(policy);
+
+            const traces = policy.partyAgreements.map(a => ({
+                name: a.party,
+                x: a.agreements,
+                type: 'histogram',
+                marker: {
+                    color: a.color
+                }
+            }));
+
+            const layout = {barmode: "stack"};
+            Plotly.newPlot('chartElement', traces, layout);
+
+            document.getElementById('chartElement')
+                .on('plotly_click',
+                    event => {
+                        handleHistogramClick(event, policy.memberDetails);
+                    });
+        });
 </script>

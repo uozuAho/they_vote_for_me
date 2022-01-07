@@ -29,10 +29,19 @@ namespace site.Api
                 .OrderByDescending(g => g.Count())
                 .Select(g => new PartyAgreement(g.Key, g.Select(p => p.agreement).ToArray()));
 
+            var myIndependentsDetails = policy.people_comparisons
+                .Select(p => new MemberDetails(
+                    p.person.latest_member.name.FullName,
+                    p.person.latest_member.party,
+                    p.person.latest_member.electorate,
+                    p.agreement))
+                .ToArray();
+
             return Ok(new PolicyAgreementByParty(
                 policy.name,
                 policy.description,
-                partyAgreements.ToArray())
+                partyAgreements.ToArray(),
+                myIndependentsDetails)
             );
         }
     }
@@ -40,7 +49,8 @@ namespace site.Api
     public record PolicyAgreementByParty(
         string title,
         string description,
-        PartyAgreement[] partyAgreements
+        PartyAgreement[] partyAgreements,
+        MemberDetails[] memberDetails
     );
 
     public record PartyAgreement(string party, double[] agreements)
@@ -59,4 +69,6 @@ namespace site.Api
             };
         }
     };
+
+    public record MemberDetails(string name, string party, string electorate, double agreement);
 }
