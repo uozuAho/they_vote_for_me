@@ -17,7 +17,7 @@
 
 <div id="chartElement" style="width:1000px;height:800px;"></div>
 
-<div id="membersDataElement"></div>
+<ul id="membersDataElement"></ul>
 
 <script>
     function handleHistogramClick(event, memberDetails) {
@@ -29,7 +29,11 @@
             members.push(partyMembers[i]);
         }
 
-        console.log(members);
+        $('#membersDataElement').empty();
+        for (const member of members) {
+            const el = $('<li></li>').text(`${member.name}, ${member.electorate}`);
+            $('#membersDataElement').append(el);
+        }
     }
 
     fetch(`/api/policy/@RouteData.Values["id"]`)
@@ -37,8 +41,6 @@
         .then(policy => {
             $('#policyTitle').text(policy.title);
             $('#policyDescription').text(policy.description);
-
-            console.log(policy);
 
             const traces = policy.partyAgreements.map(a => ({
                 name: a.party,
