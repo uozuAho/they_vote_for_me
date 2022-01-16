@@ -4,30 +4,8 @@
     ViewData["Title"] = "Home page";
 }
 
-<script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
+<h1>What does the Australian federal government do?</h1>
 
-<div class="text-center">
-    <h1 id="policyTitle" class="display-4">Policies</h1>
-    <p id="policyDescription"></p>
-</div>
+<p><a asp-page="/Policies">Policies</a>: votes by MPs, grouped by policy areas.</p>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Last edited</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var policy in Model.Policies)
-    {
-        <tr>
-            <th scope="row"><a href="PartyPolicyStance/@policy.id">@policy.name</a></th>
-            <td>@policy.last_edited_at</td>
-        </tr>
-    }
-    </tbody>
-</table>
-<ul>
-
-</ul>
+<a href="https://www.aph.gov.au/bills/">Bills</a>
